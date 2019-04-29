@@ -4,11 +4,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Chih-Yun Chien</title>
-	<link rel="stylesheet" href="bootstrap.min.css" type="text/css">
-	<link rel="stylesheet" href="style.css" type="text/css">
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="shortcut icon" type="image/ico" href="res/favicon.ico"/>
 
 </head>
-<body onload="inputFocus()">
+<body>
 	<div class="container">
 		<div id="contentWrapper" class="col-xs-10 col-xs-offset-1 col-lg-6 col-lg-offset-3">
 			<div id="content">
@@ -19,7 +20,7 @@
 					<p id = "greet"></p>
 
 					<noscript>
-						<p class="disclaimer">Oops! It seems like you're not using JavaScript, and that's cool. I made this website primarily in JS so that I could emulate a terminal environment that accepts commands to display information about myself. Please enable JavaScript to see it. </p>
+						<p class="disclaimer">Oops! It seems like you're not using JavaScript.<br />I made this website primarily in JS so that I could emulate a terminal environment that accepts commands to display information about myself. Please enable JavaScript to view it. </p>
 					</noscript>
 
 					<p id = "instruct"></p>
@@ -41,15 +42,16 @@
 	</div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-	<script src="bootstrap.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 
 	<script type="text/javascript">
-        var greeting = "Hi there! My name's Chih-Yun and I'm currently a Computer Science student at King's College London. Welcome to my site :-)";
-        var instruction1 = "To get started, please type in the command ";
-        var h = "<span class='keyword'>h</span>";
-        var instruction2 = " or ";
-        var help = "<span class='keyword'>help</span>";
-        var instruction3 = ", followed by the 'enter' key, to see a list of further available commands.";
+        const interval = 50;
+        const greeting = "Hi there! My name's Chih-Yun and I'm currently a Computer Science student at King's College London. Welcome to my site :-)";
+        const instruction1 = "To get started, please type in the command ";
+        const h = "<span class='keyword'>h</span>";
+        const instruction2 = " or ";
+        const help = "<span class='keyword'>help</span>";
+        const instruction3 = ", followed by the 'enter' key, to see a list of further available commands.";
     	var user = 'visitor';
 		var spanuser = document.getElementById('user');
 		var commandList = [];
@@ -59,37 +61,34 @@
 		var termBody = "";
 		var message = "";
 		var cmd = "";
-		var siteName = 'Chih-Yun\'s site';
-        var msgHelp="<div class='terminalMessage'>";
-        msgHelp += "======= HELP =======";
-        msgHelp += "<p><span class='keyword'>ls</span> (lower case L): See commands for available 'pages'</p>";
-        msgHelp += "<p><span class='keyword'>name yourname</span>: Change the user from 'visitor$' to 'yourname$'. For example, 'name Iron Man' would change it to <span class='user'>" + siteName + ":~ Iron Man$</span></p>";
-        msgHelp += "<p><span class='keyword'>up/down arrows</span>: Cycle through previously entered commands</p>";
-        msgHelp += "<p><span class='keyword'>clear</span>: Clear all displayed data from the terminal. Up/Down still cycles through previous commands.</p>";
-        msgHelp += "</div>";
+		const siteName = 'Chih-Yun\'s site';
+        var msgHelp="<div class='terminalMessage'>======= HELP =======<p><span class='keyword'>ls</span> (lower case L): See commands for available 'pages'</p><p><span class='keyword'>name yourname</span>: Change the user from 'visitor$' to 'yourname$'. For example, 'name Captain Marvel' would change it to <span class='user'>" + siteName + ":~ Captain Marvel$</span></p><p><span class='keyword'>up/down arrows</span>: Cycle through previously entered commands</p><p><span class='keyword'>clear</span>: Clear all displayed data from the terminal. Up/Down still cycles through previous commands.</p></div>";
         window.onload = function(){
-            printSentence("greet",greeting).then((l)=>{
+            fireSentence("greet",greeting).then((l)=>{
                 setTimeout(function() {
-                    printSentence("instruct",instruction1).then((l)=>{
+                    fireSentence("instruct",instruction1).then((l)=>{
                         setTimeout(function(){
-                            printKeyword("instruct", h).then((l)=>{
+                            fireKeyword("instruct", h).then((l)=>{
                                 setTimeout(function(){
-                                    printSentence("instruct",instruction2).then((l)=>{
+                                    fireSentence("instruct",instruction2).then((l)=>{
                                         setTimeout(function(){
-                                             printKeyword("instruct",help).then((l)=>{
+                                             fireKeyword("instruct",help).then((l)=>{
                                                  setTimeout(function(){
-                                                     printSentence("instruct",instruction3)
-                                                         .then(()=>
-                                                         inputFocus());
-                                                 },60*l);  
+                                                     fireSentence("instruct",instruction3)
+                                                         .then((l)=>{
+                                                         setTimeout(function(){
+                                                                    inputFocus();
+                                                        },interval*l);
+                                                     });
+                                                 },interval*l);  
                                             });
-                                        },60*l);
+                                        },interval*l);
                                     });
-                                },60*l);
+                                },interval*l);
                             });
-                        },60*l);   
+                        },interval*l);   
                     }); 
-              },60*l+120);
+              },interval*(l+3));
         });
 
         };
@@ -130,7 +129,7 @@
 					break;
 					case "LS":
 					message = "<div class='terminalMessage'>";
-					message += "======= PAGES =======<br/><span class='tip'>[Tip]</span> Use the commands in blue to 'naviage' to the 'pages'.";
+					message += "======= PAGES =======<br/><span class='tip'>[Tip]</span> Use the commands in blue to 'naviagate' to the 'pages'.";
 					message += "<p><span class='keyword'>about</span>: Tells you who I am</p>";
                     message += "<p><span class='keyword'>experience</span>: My work experience</p>";
                     message += "<p><span class='keyword'>projects</span>: List of projects I have done with links</p>";
@@ -159,10 +158,10 @@
                     message = "<span class='tip'>[Year 3]</span><br /> Pattern Recognition; Computer Vision; Artificial Intelligence; Agent and Multi-agents Systems; Distributed Systems; Optimization Methods; Individual Project(Quantum Computing and Algorithms)<br /><span class='tip'>[Year 2]</span><br /> Foundations of Computing 2; Introduction to Robotics; Operating Systems and Concurrency; Object-Oriented Specification and Design; Practical Experience of Programming; Programming Language Design Paradigms; Robotics Group Project<br /><span class='tip'>[Year 1]<br /></span> Computer Systems; Database systems; Data Structures; Elementary Logic with Applications; Foundations of Computing 1; Introduction to Artificial Intelligence; Programming Practice and Application "
                     break;
                     case "PROJECTS":
-                    message = "<p>Operation Board Game: <a href='https://github.com/jojojolin/operationDemo'>git</a><br />Face-tracking + Sticker Java App: <a href='https://github.com/jojojolin/FaceDetectionJava'>git</a><br />Quantum Random Walk Algorithm: <a href='https://github.com/jojojolin/quantumwalk'>git</a><br />Wechat Mini Program - backend: <a href='https://github.com/jojojolin/blockchain_app'>git</a></p>";
+                    message = "<p>Operation Board Game: <a href='https://github.com/jojojolin/operationDemo'>git</a><br />Face-tracking + Sticker Java App: <a href='https://github.com/jojojolin/FaceDetectionJava'>git</a><br />Quantum Random Walk Algorithm: <a href='https://github.com/jojojolin/quantumwalk'>git</a><br />8btc Forum Scraper: <a href='https://github.com/jojojolin/8btc_scraper'>git</a></p>";
                     break;
 					case "EXPERIENCE":
-					message = "--------<br /><span class='tip'>Room One Ltd</span>, London, 2018/01/03 - 2018/03/31<br /> Software Developer - Python + ROS<br /><ul type='Circle'><li>Programmed UR3 robot such that it can be controlled over the network using Xbox Kinect to mimick user's leg movement.</li><li>Optimised synchronisation by using asynchronous HTTP requests</li><li>Reduced latency via MPTCP proxy <a href='https://twitter.com/roomonelondon/status/969268929565782017'>Link</a></li></ul>--------<br /><span class='tip'>KCL Ericcson 5G Lab</span>, London, 2017/09/05 - 2018/03/31<br />Network Engineer<br /><ul type='Circle'><li>Implemented MPTCP proxy in C and deployed on a Linux server.</li></ul>--------<br /><span class='tip'>Runwedia</span>, Taipei, 2017/07/21 - 2017/08/31<br />Frontend Develop Intern<br /><ul><li>Designed and built websites using Javascript, PHP, HTML and CSS.</li></ul>--------<br /><span class='tip'>Cyberlink</span>, Taipei, 2016/06/01 - 20016/08/25<br />UI Design Intern<br /><ul><li>Designed icons and edited photos using Adobe Photoshop & Illustrator</li></ul>";
+					message = "--------<br /><span class='tip'>Room One Ltd</span>, London, 2018/01/03 - 2018/03/31<br /> Software Developer - Python + ROS<br /><ul type='Circle'><li>Programmed UR3 robot such that it can be controlled over the network using Xbox Kinect to mimick user's leg movement.</li><li>Optimised synchronisation by using asynchronous HTTP requests</li><li>Reduced latency via MPTCP proxy <a href='https://twitter.com/roomonelondon/status/969268929565782017'>Link</a></li></ul>--------<br /><span class='tip'>KCL Ericcson 5G Lab</span>, London, 2017/09/05 - 2018/03/31<br />Network Engineer - 5G<br /><ul type='Circle'><li>Implemented MPTCP/IP proxy in C and deployed on a Linux server.</li></ul>--------<br /><span class='tip'>Runwedia</span>, Taipei, 2017/07/21 - 2017/08/31<br />Frontend Develop Intern<br /><ul><li>Designed and built websites using Javascript, PHP, HTML and CSS.</li></ul>--------<br /><span class='tip'>Cyberlink</span>, Taipei, 2016/06/01 - 20016/08/25<br />UI Design Intern<br /><ul><li>Designed icons and graphics using Adobe Photoshop and Illustrator</li></ul>";
 					break;
 					case "CONTACT":
 					message = "<div class='terminalMessage'><p>Feel free to drop me an <a href='mailto:chih-yun.chien@kcl.ac.uk'>email</a> or check out my <a href='https://github.com/jojojolin'>github</a>!</p></div>";
@@ -171,7 +170,7 @@
 					message = "";
 					break;
                     case "CV":
-                    message = "<div class='terminalMessage'><a href='Chien_Chih-Yun_CV.pdf'>Click here to open</a></div>";
+                    message = "<div class='terminalMessage'><a href='res/Chien_Chih-Yun_CV.pdf'>Click here to open</a></div>";
                     break;
 					default:
 					message = "<div class='terminalMessage'>Unrecognised command. For a list of commands, enter <span class='keyword'>h</span> or <span class='keyword'>help</span>.</div>";
@@ -209,27 +208,26 @@
 			}
 		}
         
-        function printSentence(id, sentence){
+        function fireSentence(id, sentence){
           var delay = 0;
           for(var i = 0; i < sentence.length; i++){
             (function(i) {
               setTimeout(function() {
                 document.getElementById(id).innerHTML+=sentence[i]; 
-              }, 60 * (i+delay));
+              }, interval * (i+delay));
               if(sentence[i]=="." || sentence[i]=="!" || sentence[i]==","){
                     delay+=3;
               }
             })(i);
           }
-           // return false;
            return new Promise(resolve => resolve(sentence.length+delay))
         }
         
-        function printKeyword(id, sentence){
-            document.getElementById(id).innerHTML+=sentence; 
-           // return false;
+        function fireKeyword(id, word){
+            document.getElementById(id).innerHTML+=word; 
            return new Promise(resolve => resolve(1))
         }
+        
         function clear(){
             document.getElementById("instruct").innerHTML = "";
             document.getElementById("greet").innerHTML
