@@ -1,0 +1,99 @@
+body {
+	background-color: #000;
+	color: #FFF;
+	font-family: courier, monospace;
+}
+
+p {
+
+}
+
+.container {
+	width: 100%;
+}
+
+#contentWrapper {
+	overflow: hidden;
+}
+
+#content {
+	width: 106%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#intro {
+	padding-right: 5%;
+	padding-left: 3px;
+	max-height: 500px;
+	font-size: large;
+	border-bottom: 1px solid #999;
+	margin-bottom: 10px;
+}
+#terminalBody {
+	padding-right: 5%;
+	overflow: auto;
+	padding-left: 3px;
+	max-height: 300px;
+	font-size: large;
+}
+
+.cmdln {
+	padding-left: 5px;
+	padding-top: 1px;
+}
+
+.commandLine {
+	padding-left: 3px;
+	padding-top: 7px;
+}
+
+.terminalCommand {
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-right: 20px;
+}
+
+
+.terminalMessage {
+	padding-left: 4px;
+	padding-right: 20px;
+}
+
+table {
+	font-size: large;
+}
+
+td.right {
+	width: 300px;
+}
+
+input[type=text] {
+	width: 100%;
+	background-color: #000;
+	border: none;
+/*	border-bottom: 1px solid #999; */
+	color: #FFF;
+	font-size: large;
+	margin-left: 5px;
+	font-family: courier, monospace;
+	outline: none;
+}
+
+input[type=text]:focus {
+	outline: none;
+}
+
+.user {
+	color: #0F0;	
+}
+
+.command {
+	color: #FFF;
+}
+.keyword {
+	color: #99BBFF;
+}
+.tip{
+    color:bisque;
+}
