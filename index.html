@@ -135,7 +135,7 @@
                     message += "<p><span class='keyword'>projects</span>: List of projects I have done with links</p>";
                     message += "<p><span class='keyword'>modules</span>: Modules in my course from Year 1 to 3</p>";
 					message += "<p><span class='keyword'>education</span>: My educational background</p>";
-                    message += "<p><span class='keyword'>cv</span>: My resume in PDF</p>";
+                    message += "<p><span class='keyword'>cv</span> or <span class='keyword'>resume</span>: My resume in PDF</p>";
 					message += "<p><span class='keyword'>contact</span>: Get in touch via email, or check out my GitHub repo</p>";
 					message += "</div>";
 					break;
@@ -170,6 +170,9 @@
 					message = "";
 					break;
                     case "CV":
+                    message = "<div class='terminalMessage'><a href='res/Chien_Chih-Yun_CV.pdf'>Click here to open</a></div>";
+                    break;
+                    case "RESUME":
                     message = "<div class='terminalMessage'><a href='res/Chien_Chih-Yun_CV.pdf'>Click here to open</a></div>";
                     break;
 					default:
