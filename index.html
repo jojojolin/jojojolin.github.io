@@ -135,6 +135,7 @@
                     message += "<p><span class='keyword'>projects</span>: List of projects I have done with links</p>";
                     message += "<p><span class='keyword'>modules</span>: Modules in my course from Year 1 to 3</p>";
 					message += "<p><span class='keyword'>education</span>: My educational background</p>";
+                    message += "<p><span class='keyword'>activities</span>: List of interesting activities participated in past</p>";
                     message += "<p><span class='keyword'>cv</span> or <span class='keyword'>resume</span>: My resume in PDF</p>";
 					message += "<p><span class='keyword'>contact</span>: Get in touch via email, or check out my GitHub repo</p>";
 					message += "</div>";
@@ -162,6 +163,9 @@
                     break;
 					case "EXPERIENCE":
 					message = "--------<br /><span class='tip'>Room One Ltd</span>, London, 2018/01/03 - 2018/03/31<br /> Software Developer - Python + ROS<br /><ul type='Circle'><li>Programmed UR3 robot such that it can be controlled over the network using Xbox Kinect to mimick user's leg movement.</li><li>Optimised synchronisation by using asynchronous HTTP requests</li><li>Reduced latency via MPTCP proxy <a href='https://twitter.com/roomonelondon/status/969268929565782017'>Link</a></li></ul>--------<br /><span class='tip'>KCL Ericcson 5G Lab</span>, London, 2017/09/05 - 2018/03/31<br />Network Engineer - 5G<br /><ul type='Circle'><li>Implemented MPTCP/IP proxy in C and deployed on a Linux server.</li></ul>--------<br /><span class='tip'>Runwedia</span>, Taipei, 2017/07/21 - 2017/08/31<br />Frontend Develop Intern<br /><ul><li>Designed and built websites using Javascript, PHP, HTML and CSS.</li></ul>--------<br /><span class='tip'>Cyberlink</span>, Taipei, 2016/06/01 - 20016/08/25<br />UI Design Intern<br /><ul><li>Designed icons and graphics using Adobe Photoshop and Illustrator</li></ul>";
+					break;
+                    case "ACTIVITIES":
+					message = "--------<br /><span class='tip'>Facebook Hack A Project</span>,  London, 2018/10 - 2018/11<br /><ul type='Circle'><li>6-week program at Facebook HQ with mentoring support from senior software engineers. </li><li>Worked on the backend of an Android App that uses Node.js with Express framework and Heroku for infrastructure.</li></ul>--------<br /><span class='tip'>China Internet Industry Immersion Trip</span><br />Beijing, 2017/08<br /><ul type='Circle'><li>Interned at Xinhuanet and visited Huawei, Mobike and JD.</li></ul>--------";
 					break;
 					case "CONTACT":
 					message = "<div class='terminalMessage'><p>Feel free to drop me an <a href='mailto:chih-yun.chien@kcl.ac.uk'>email</a> or check out my <a href='https://github.com/jojojolin'>github</a>!</p></div>";
