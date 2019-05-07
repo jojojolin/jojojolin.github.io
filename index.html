@@ -30,7 +30,7 @@
 				<div class="commandLine">
 					<table>
 						<tr>
-							<td class="left"><span id="user" class="user">Chih-Yun's site:~ visitor$ </span></td>
+							<td class="left"><span id="user" class="user">visitor@ChihYun's-site ~ $ </span></td>
 							<td class="right">
 								<input type="text" id="commandLine" class="cmdln" name="command" onkeydown="executeCmd(event)"/>
 							</td>
@@ -61,8 +61,8 @@
 		var termBody = "";
 		var message = "";
 		var cmd = "";
-		const siteName = 'Chih-Yun\'s site';
-        var msgHelp="<div class='terminalMessage'>======= HELP =======<p><span class='keyword'>ls</span> (lower case L): See commands for available 'pages'</p><p><span class='keyword'>name yourname</span>: Change the user from 'visitor$' to 'yourname$'. For example, 'name Captain Marvel' would change it to <span class='user'>" + siteName + ":~ Captain Marvel$</span></p><p><span class='keyword'>up/down arrows</span>: Cycle through previously entered commands</p><p><span class='keyword'>clear</span>: Clear all displayed data from the terminal. Up/Down still cycles through previous commands.</p></div>";
+		const siteName = '@Chihyun\'s-site';
+        var msgHelp="<div class='terminalMessage'>======= HELP =======<p><span class='keyword'>ls</span> (lower case L): See commands for available 'pages'</p><p><span class='keyword'>name yourname</span>: Change the user from 'visitor$' to 'yourname$'. For example, 'name Captain Marvel' would change it to <span class='user'>CaptainMarvel" + siteName + " ~ $</span></p><p><span class='keyword'>up/down arrows</span>: Cycle through previously entered commands</p><p><span class='keyword'>clear</span>: Clear all displayed data from the terminal. Up/Down still cycles through previous commands.</p></div>";
         window.onload = function(){
             fireSentence("greet",greeting).then((l)=>{
                 setTimeout(function() {
@@ -93,7 +93,7 @@
 
         };
 		function inputFocus() {
-			spanuser.innerHTML = siteName + ':~ ' + user + '$ ';
+			spanuser.innerHTML = user + siteName + ' ~ $ ';
 			document.getElementById('commandLine').focus();
 		}
 		function executeCmd(e) {
@@ -101,7 +101,7 @@
 		    if ((e.which == 13) || (e.keyCode == 13))
 		    {
 				commLine = document.getElementById('commandLine');
-				comm = '<div class="terminalCommand"><span class="user">' + siteName + ':~ ' + user + '$ </span>' + '<span class="command">' + commLine.value + '</span></div>';
+				comm = '<div class="terminalCommand"><span class="user">' +user + siteName+' ~ $ </span>' + '<span class="command">' + commLine.value + '</span></div>';
 				termBody = document.getElementById('terminalBody');
 				message = "";
 				cmd = commLine.value.split(" ");
@@ -109,15 +109,18 @@
 				switch(cmd[0].toUpperCase())
 				{
 					case "NAME":
-					user = cmd[1];
-					if(user)
-					{
-						spanuser.innerHTML = siteName + ':~ ' + user + '$ ';
+					if(cmd[1])
+					{  
+                        user="";
+                        for (i=1; i<cmd.length;i++){
+                            user+=cmd[i];
+                        }
+						spanuser.innerHTML = user + siteName + ' ~ $ ';
 						message = "<div class='terminalMessage'>User set to '" + user + "'</div>";
 					}
 					else
 					{
-						spanuser.innerHTML = siteName + ':~ ' + user + '$ ';
+						spanuser.innerHTML = user + siteName + ' ~ $ ';
 						message = "<div class='terminalMessage'>User set to 'visitor'</div>";
 					}
 					break;
