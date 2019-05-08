@@ -45,7 +45,7 @@
 	<script src="js/bootstrap.min.js"></script>
 
 	<script type="text/javascript">
-        const interval = 50;
+        const interval = 50; //default delay for printing the next character
         const greeting = "Hi there! My name's Chih-Yun and I'm currently a Computer Science student at King's College London. Welcome to my site :-)";
         const instruction1 = "To get started, please type in the command ";
         const h = "<span class='keyword'>h</span>";
@@ -63,6 +63,8 @@
 		var cmd = "";
 		const siteName = '@Chihyun\'s-site';
         var msgHelp="<div class='terminalMessage'>======= HELP =======<p><span class='keyword'>ls</span> (lower case L): See commands for available 'pages'</p><p><span class='keyword'>name yourname</span>: Change the user from 'visitor$' to 'yourname$'. For example, 'name Captain Marvel' would change it to <span class='user'>CaptainMarvel" + siteName + " ~ $</span></p><p><span class='keyword'>up/down arrows</span>: Cycle through previously entered commands</p><p><span class='keyword'>clear</span>: Clear all displayed data from the terminal. Up/Down still cycles through previous commands.</p></div>";
+        
+        //Use nested setTimeout() to achieve the 'illusion' of sleep in JS
         window.onload = function(){
             fireSentence("greet",greeting).then((l)=>{
                 setTimeout(function() {
@@ -80,22 +82,37 @@
                                                                     inputFocus();
                                                         },interval*l);
                                                      });
-                                                 },interval*l);  
+                                                 },interval*l);
                                             });
                                         },interval*l);
                                     });
                                 },interval*l);
                             });
-                        },interval*l);   
-                    }); 
+                        },interval*l);
+                    });
               },interval*(l+3));
-        });
-
+            });
         };
+        
+        /************************************
+        ** Description: let the cursor blink
+        ************************************/
 		function inputFocus() {
-			spanuser.innerHTML = user + siteName + ' ~ $ ';
 			document.getElementById('commandLine').focus();
 		}
+        
+        /************************************
+        ** Description: clear all elements/text in the terminal html
+        ************************************/
+        function clear(){
+            document.getElementById("instruct").innerHTML = "";
+        }
+        
+        /************************************
+        ** Description: parse text into command and 'execute' it by 
+        **              adding the corresponding response to the html
+        ** Param: command(string)
+        ************************************/
 		function executeCmd(e) {
 			e = e || window.event;
 		    if ((e.which == 13) || (e.keyCode == 13))
@@ -218,6 +235,12 @@
 			}
 		}
         
+        /************************************
+        ** Description: print a sentence character by character
+        ** Params : id of the div to append the text, and the text to print
+        ** Return : a Promise to ensure that the next sentence to print waits until the
+        ** current one finishes
+        ************************************/
         function fireSentence(id, sentence){
           var delay = 0;
           for(var i = 0; i < sentence.length; i++){
@@ -225,6 +248,7 @@
               setTimeout(function() {
                 document.getElementById(id).innerHTML+=sentence[i]; 
               }, interval * (i+delay));
+              // Add slightly longer pauses to these symbols:
               if(sentence[i]=="." || sentence[i]=="!" || sentence[i]==","){
                     delay+=3;
               }
@@ -233,15 +257,16 @@
            return new Promise(resolve => resolve(sentence.length+delay))
         }
         
+        /************************************
+        ** Description: print a keyword with special css
+        ** Params : id of the keyword to print
+        ** Return : a Promise to ensure that the next string to print waits until the
+        ** current one finishes
+        ************************************/
         function fireKeyword(id, word){
             document.getElementById(id).innerHTML+=word; 
            return new Promise(resolve => resolve(1))
-        }
-        
-        function clear(){
-            document.getElementById("instruct").innerHTML = "";
-            document.getElementById("greet").innerHTML
-        }
+        } 
 	</script>
 </body>
 </html>
