@@ -34,7 +34,7 @@ p {
 	padding-right: 5%;
 	overflow: auto;
 	padding-left: 3px;
-	max-height: 300px;
+	max-height: 50vh;/**was 300px*/
 	font-size: large;
 }
 
@@ -94,6 +94,11 @@ input[type=text]:focus {
 .keyword {
 	color: #99BBFF;
 }
+
+.highlight{
+    color:yellow;
+}
+
 .tip{
     color:bisque;
 }
