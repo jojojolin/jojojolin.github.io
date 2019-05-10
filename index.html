@@ -23,7 +23,7 @@
 						<p class="disclaimer">Oops! It seems like you're not using JavaScript.<br />I made this website primarily in JS so that I could emulate a terminal environment that accepts commands to display information about myself. Please enable JavaScript to view it. </p>
 					</noscript>
 
-					<p id = "instruct"></p>
+					<p id ="instruct"></p>
 				</div>
 				<div id="terminalBody">
 				</div>
@@ -62,7 +62,7 @@
 		var message = "";
 		var cmd = "";
 		const siteName = '@Chihyun\'s-site';
-        var msgHelp="<div class='terminalMessage'>======= HELP =======<p><span class='keyword'>ls</span> (lower case L): See commands for available 'pages'</p><p><span class='keyword'>name yourname</span>: Change the user from 'visitor$' to 'yourname$'. For example, 'name Captain Marvel' would change it to <span class='user'>CaptainMarvel" + siteName + " ~ $</span></p><p><span class='keyword'>up/down arrows</span>: Cycle through previously entered commands</p><p><span class='keyword'>clear</span>: Clear all displayed data from the terminal. Up/Down still cycles through previous commands.</p></div>";
+        var msgHelp="<div class='terminalMessage'>======= HELP =======<p><span class='keyword'>ls</span> (lower case L): See commands for available 'pages'</p><p><span class='keyword'>name yourname</span>: Change the user from 'visitor@' to 'yourname@'. For example, 'name Captain Marvel' would change it to <span class='user'>CaptainMarvel" + siteName + " ~ $</span></p><p><span class='keyword'>up/down arrow keys</span>: Cycle through previously entered commands</p><p><span class='keyword'>clear</span>: Clear all displayed data from the terminal</p><p><span class='keyword'>hide/show</span>: Hide or show the introduction above</p></div>";
         
         //Use nested setTimeout() to achieve the 'illusion' of sleep in JS
         window.onload = function(){
@@ -163,9 +163,9 @@
 					case "ABOUT":
 					message = "<div class='terminalMessage'>";
 					message += "======== ABOUT ME ========";
-					message += "<p>I love art, quantum physics, philosophy and PROGRAMMING.</p>";
-					message += "<p>I enjoy working with Java, Go, C, Python, HTML, CSS, JavaScript, MySQL and PHP.</p>";
-					message += "<p>I love learning new languages and technologies. Right now I'm learning to build microservices in Go in my spare time. I also like to solve problems using my box of tools. My next goal is to write a program that maps the 'Identity-H' encoding in PDF to unicode so that embeded fonts of this type can be copy-able.</p>";
+					message += "<p>I love art, quantum physics, philosophy and <span class='highlight'>PROGRAMMING</span>.</p>";
+					message += "<p>I enjoy working with <span class='highlight'>Java, Go, C, Python, HTML, CSS, JavaScript, MySQL</span> and <span class='highlight'>PHP</span>.</p>";
+					message += "<p>I'm constantly learning new languages and technologies. Right now I'm building <span class='highlight'>microservices</span> in <span class='highlight'>Go</span> in my spare time. I also like to solve problems using my box of tools. My next goal is to write a program that maps the 'Identity-H' encoding in PDF to unicode so that embeded fonts of this kind can become copy-able.</p>";
 					message += "</div>";
 					break;
 					case "EDUCATION":
@@ -198,6 +198,14 @@
                     break;
                     case "RESUME":
                     message = "<div class='terminalMessage'><a href='res/Chien_Chih-Yun_CV.pdf'>Click here to open</a></div>";
+                    break;
+                    case "SHOW":
+                    document.getElementById("intro").style.display="block";
+                    document.getElementById("terminalBody").style.maxHeight="50vh";
+                    break;
+                    case "HIDE":
+                    document.getElementById("intro").style.display="none";
+                    document.getElementById("terminalBody").style.maxHeight="80vh";
                     break;
 					default:
 					message = "<div class='terminalMessage'>Unrecognised command. For a list of commands, enter <span class='keyword'>h</span> or <span class='keyword'>help</span>.</div>";
