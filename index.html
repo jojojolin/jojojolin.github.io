@@ -45,7 +45,7 @@
 	<script src="js/bootstrap.min.js"></script>
 
 	<script type="text/javascript">
-        const interval = 50; //default delay for printing the next character
+        const interval = 50; //default delay for printing next char
         const greeting = "Hi there! My name's Chih-Yun and I'm currently a Computer Science student at King's College London. Welcome to my site :-)";
         const instruction1 = "To get started, please type in the command ";
         const h = "<span class='keyword'>h</span>";
@@ -61,8 +61,17 @@
 		var termBody = "";
 		var message = "";
 		var cmd = "";
+        var lookup = new Array(26); //26 letters
+        const availableCmds = ['ABOUT','ACTIVITIES','CLEAR','CONTACT','CV','EDUCATION','EXPERIENCE','HIDE','MODULES','NAME','PROJECTS','RESUME','SHOW'];
 		const siteName = '@Chihyun\'s-site';
         var msgHelp="<div class='terminalMessage'>======= HELP =======<p><span class='keyword'>ls</span> (lower case L): See commands for available 'pages'</p><p><span class='keyword'>name yourname</span>: Change the user from 'visitor@' to 'yourname@'. For example, 'name Captain Marvel' would change it to <span class='user'>CaptainMarvel" + siteName + " ~ $</span></p><p><span class='keyword'>up/down arrow keys</span>: Cycle through previously entered commands</p><p><span class='keyword'>clear</span>: Clear all displayed data from the terminal</p><p><span class='keyword'>hide/show</span>: Hide or show the introduction above</p></div>";
+        
+        //Preload lookup table
+        lookup.fill(null);
+        for (i = 0; i < availableCmds.length; i++){
+            insert(availableCmds[i]);
+        }
+        
         
         //Use nested setTimeout() to achieve the 'illusion' of sleep in JS
         window.onload = function(){
@@ -185,7 +194,7 @@
 					message = "--------<br /><span class='tip'>Room One Ltd</span>, London, 2018/01/03 - 2018/03/31<br /> Software Developer - Python + ROS<br /><ul type='Circle'><li>Programmed UR3 robot such that it can be controlled over the network using Xbox Kinect to mimick user's leg movement.</li><li>Optimised synchronisation by using asynchronous HTTP requests</li><li>Reduced latency via MPTCP proxy <a href='https://twitter.com/roomonelondon/status/969268929565782017'>Link</a></li></ul>--------<br /><span class='tip'>KCL Ericcson 5G Lab</span>, London, 2017/09/05 - 2018/03/31<br />Network Engineer - 5G<br /><ul type='Circle'><li>Implemented MPTCP/IP proxy in C and deployed on a Linux server.</li></ul>--------<br /><span class='tip'>Runwedia</span>, Taipei, 2017/07/21 - 2017/08/31<br />Frontend Develop Intern<br /><ul><li>Designed and built websites using Javascript, PHP, HTML and CSS.</li></ul>--------<br /><span class='tip'>Cyberlink</span>, Taipei, 2016/06/01 - 20016/08/25<br />UI Design Intern<br /><ul><li>Designed icons and graphics using Adobe Photoshop and Illustrator</li></ul>";
 					break;
                     case "ACTIVITIES":
-					message = "--------<br /><span class='tip'>Facebook Hack A Project</span>,  London, 2018/10 - 2018/11<br /><ul type='Circle'><li>6-week program at Facebook HQ with mentoring support from senior software engineers. </li><li>Worked on the backend of an Android App that uses Node.js with Express framework and Heroku for infrastructure.</li></ul>--------<br /><span class='tip'>China Internet Industry Immersion Trip</span><br />Beijing, 2017/08<br /><ul type='Circle'><li>Interned at Xinhuanet and visited Huawei, Mobike and JD.</li></ul>--------";
+					message = "--------<br /><span class='tip'>Facebook Hack A Project</span>,  London, 2018/10 - 2018/11<br /><ul type='Circle'><li>6-week program at Facebook HQ with mentoring support from senior software engineers. </li><li>Worked on the backend of an Android App that uses Node.js with Express framework and Heroku for infrastructure.</li></ul>--------<br /><span class='tip'>China Internet Industry Immersion Trip</span><br />Beijing, 2017/08<br /><ul type='Circle'><li>Rotated around different departments during the internship at Xinhuanet.</li><li> Visited Huawei, Mobike and JD.com.</li></ul>--------";
 					break;
 					case "CONTACT":
 					message = "<div class='terminalMessage'><p>Feel free to drop me an <a href='mailto:chih-yun.chien@kcl.ac.uk'>email</a> or check out my <a href='https://github.com/jojojolin'>github</a>!</p></div>";
@@ -241,6 +250,31 @@
 					upLimit--;
 				}
 			}
+            else if ((e.which == 9) || (e.keyCode == 9))
+            {               
+                e.preventDefault(); //prevent default tab response
+                commLine = document.getElementById('commandLine');
+				termBody = document.getElementById('terminalBody');
+				message = "";
+				cmd = commLine.value.split(" ");
+                if (cmd.length < 2)
+                {
+                    let options = search(cmd[0].toUpperCase());
+                    if (options.length == 1)
+                    {   
+                        commLine.value = options[0].toLowerCase();
+                    }
+                    else if(options.length > 1)
+                    {   
+                        termBody.innerHTML += '<div class="terminalCommand"><span class="user">' +user + siteName+' ~ $ </span>' + '<span class="command">' + commLine.value + '</span></div><div class ="terminalMessage">';
+                        for (i = 0; i < options.length; i++){
+                            termBody.innerHTML += '<span class = "keyword" style="margin-right:50px">'+options[i].toLowerCase()+'</span>';
+                        }
+                        termBody.innerHTML += "</div>";
+                    }
+                }
+                
+            }
 		}
         
         /************************************
@@ -274,7 +308,50 @@
         function fireKeyword(id, word){
             document.getElementById(id).innerHTML+=word; 
            return new Promise(resolve => resolve(1))
-        } 
+        }
+        
+        /************************************
+        ** Description: insert commands into lookup table during preload.           
+        ** Params : command(string)
+        ************************************/
+        function insert(command){
+            let key = command.charCodeAt(0) - 65;
+            let newObj = { 
+                    value:command,
+                    next:null
+            };
+            if (lookup[key] == null){
+                lookup[key] = newObj;
+            }
+            else {
+                lookup[key].next = newObj;
+            }
+        }
+        
+        /************************************
+        ** Description: search commands from lookup table given keyword          
+        ** Params : keyword(string)
+        ** Return : a list of matching commands available
+        ************************************/
+        function search(keyword){
+            let options = [];
+            //Edge case 1 : empty string -> ignore
+            if (keyword == "") return options;
+            let l = keyword.length;
+            let k = keyword.charCodeAt(0)-65;
+            let current = lookup[k];
+            //Edge case 2 : invalid command -> ignore
+            if (current == null) return options;
+            while (current != null)
+            {
+                if (current.value.length >= keyword.length && current.value.slice(0,l) == keyword)
+                {
+                    options.push(current.value);
+                }
+                current = current.next;
+            }
+            return options;
+        }
 	</script>
 </body>
 </html>
