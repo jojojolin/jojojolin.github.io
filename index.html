@@ -62,7 +62,7 @@
 		var message = "";
 		var cmd = "";
         var lookup = new Array(26); //26 letters
-        const availableCmds = ['ABOUT','ACTIVITIES','CLEAR','CONTACT','CV','EDUCATION','EXPERIENCE','HIDE','MODULES','NAME','PROJECTS','RESUME','SHOW'];
+        const availableCmds = ['ABOUT','ACTIVITIES','CLEAR','CONTACT','CV','EDUCATION','EXPERIENCE','H','HELP','HIDE','MODULES','NAME','PROJECTS','RESUME','SHOW'];
 		const siteName = '@Chihyun\'s-site';
         var msgHelp="<div class='terminalMessage'>======= HELP =======<p><span class='keyword'>ls</span> (lower case L): See commands for available 'pages'</p><p><span class='keyword'>name yourname</span>: Change the user from 'visitor@' to 'yourname@'. For example, 'name Captain Marvel' would change it to <span class='user'>CaptainMarvel" + siteName + " ~ $</span></p><p><span class='keyword'>up/down arrow keys</span>: Cycle through previously entered commands</p><p><span class='keyword'>clear</span>: Clear all displayed data from the terminal</p><p><span class='keyword'>hide/show</span>: Hide or show the introduction above</p></div><p><span class='keyword'>tab key</span>: Autocomplete command or return a list of matching commands. Tab pressed without any input string will list all possible commands.</p>";
         
@@ -313,7 +313,9 @@
         }
         
         /************************************
-        ** Description: insert commands into lookup table during preload.           
+        ** Description: insert commands into lookup table during preload.
+        **              each element in the array is a bin which contains 
+        **              a signly linked list
         ** Params : command(string)
         ************************************/
         function insert(command){
@@ -325,8 +327,14 @@
             if (lookup[key] == null){
                 lookup[key] = newObj;
             }
-            else {
-                lookup[key].next = newObj;
+            else{
+                let current = lookup[key];
+                while(current.next!=null){
+                    console.log("current is "+current.value);
+                    current=current.next;
+                    
+                }
+                current.next = newObj;
             }
         }
         
