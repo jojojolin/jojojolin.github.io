@@ -8,7 +8,9 @@ Built primarily in Javascript to simulate a terminal window that accepts command
 
 ```clear``` : clear the terminal window
 
-'up' and 'down' arrow key : previous commands you have entered
+```up``` and ```down``` arrow key : previous commands you have entered
+
+```tab``` key: Autocomplete command or return a list of matching commands. Tab pressed without any input string will list all possible commands
 
 
 ### List of Pages
