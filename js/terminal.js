@@ -1,5 +1,5 @@
 const interval = 50; //default delay for printing next char
-const greeting = "Hi there! My name's Chih-Yun and I'm currently a Computer Science student at King's College London. Welcome to my site :-)";
+const greeting = "Hi there! My name's Chih-Yun and I'm a software test engineer @ IBM China Development Lab. Welcome to my site :-)";
 const instruction1 = "To get started, please type in the command ";
 const h = "<span class='keyword'>h</span>";
 const instruction2 = " or ";
@@ -49,11 +49,58 @@ function executeCmd(e) {
     if ((e.which == 13) || (e.keyCode == 13))
     {
         commLine = document.getElementById('commandLine');
-        comm = '<div class="terminalCommand"><span class="user">' +user + siteName+' ~ $ </span>' + '<span class="command">' + commLine.value + '</span></div>';
+        customisedCmd(commLine.value);
+    }
+    else if ((e.which == 38) || (e.keyCode == 38))
+    {
+        commLine.value = "";
+        if(upLimit <= commandList.length -1)
+        {
+            upLimit++;
+            commLine.value = commandList[commandList.length-upLimit];
+        }
+    }
+    else if ((e.which == 40) || (e.keyCode == 40))
+    {
+        commLine.value = "";
+        if(upLimit >= 1)
+        {
+            commLine.value = commandList[commandList.length-upLimit];
+            upLimit--;
+        }
+    }
+    else if ((e.which == 9) || (e.keyCode == 9))
+    {
+        e.preventDefault(); //prevent default tab response
+        commLine = document.getElementById('commandLine');
+        termBody = document.getElementById('terminalBody');
+        cmd = commLine.value.split(" ");
+        if (cmd.length < 2)
+        {
+            let options = search(cmd[0].toUpperCase());
+            if (options.length == 1) commLine.value = options[0].toLowerCase();
+            else if(options.length > 1){
+                termBody.innerHTML += '<div class="terminalCommand"><p><span class="user">' +user + siteName+' ~ $ </span>' + '<span class="command">' + commLine.value + '</span></div><div class ="terminalMessage">';
+                for (i = 0; i < options.length; i++){
+                    termBody.innerHTML += '<span class = "keyword">' + options[i].toLowerCase()+'</span>&nbsp&nbsp';
+                    if ((i+1)%5 == 0){
+                        termBody.innerHTML +='<br />';
+                    }
+                }
+                termBody.innerHTML += "</div>";
+            }
+        }
+        termBody.scrollTop = termBody.scrollHeight;
+    }
+}
+
+function customisedCmd(value){
+        if(commLine=="") commLine = document.getElementById('commandLine');
+        comm = '<div class="terminalCommand"><span class="user">' +user + siteName+' ~ $ </span>' + '<span class="command">' +value+ '</span></div>';
         termBody = document.getElementById('terminalBody');
         message = "";
-        cmd = commLine.value.split(" ");
-        commandList.push(commLine.value);
+        cmd = value.split(" ");
+        commandList.push(value);
         switch(cmd[0].toUpperCase())
         {
             case "NAME":
@@ -113,13 +160,13 @@ function executeCmd(e) {
             message = "<p>Operation Board Game <a href='https://github.com/jojojolin/operationDemo'><i class='fa'>&#xf121;</i></a><br />Face-tracking + Sticker Java App: <a href='https://github.com/jojojolin/FaceDetectionJava'><i class='fa'>&#xf121;</i></a><br />Quantum Random Walk Algorithm <a href='https://github.com/jojojolin/quantumwalk'><i class='fa'>&#xf121;</i></a><br />8btc Forum Scraper <a href='https://github.com/jojojolin/8btc_scraper'><i class='fa'>&#xf121;</i></a></p>";
             break;
             case "EXPERIENCE":
-            message = "--------<br /><span class='tip'>Room One Ltd</span>, London, 2018/01/03-2018/03/31<br /> Software Engineer<br /><ul type='Circle'><li>Worked primarily in Python and ROS on Ericsson’s 5G demo project for MWC 2018</li><li>My tasks encompassed the network and robotics aspects of the project:<ul><li>Socket programming</li><li>Applying mathematics to map the XY coordinates of the human leg to the joint angles of the robot</li></ul></li><li>Optimised human-robot motion synchronisation by using asynchronous HTTP requests <a href='https://twitter.com/roomonelondon/status/969268929565782017'><i class='fa'>&#xf099;</i></a></li></ul>--------<br /><span class='tip'>Centre for Telecommunications Research</span>, King’s College London, 2017/09/05-2018/03/31<br />Network Engineer<br /><ul type='Circle'><li>Worked in an agile manner with the team developing the prototype infrastructure for the UK’s 5G-data core</li><li>Worked in a linux environment and used command line for most of my tasks</li><li>Implemented the MP-TCP/IP proxy in C on a linux server</li></ul>--------<br /><span class='tip'>Runwedia</span>, Taipei, 2017/07/21 - 2017/08/31<br />Frontend Developer Intern<br /><ul><li>Designed and developed websites using JS, PHP, HTML and CSS</li><li>Communicated with clients and refined requirement specifications</li></ul>--------<br /><span class='tip'>Cyberlink</span>, Taipei, 2016/06/01 - 2016/08/25<br />UI Designer Intern<br /><ul><li>Designed icons and graphics using Adobe Photoshop and Illustrator</li></ul>";
+            message = "--------<br /><span class='tip'>IBM</span>, Taipei, 2019/09/16-Present<br /> Software Test Engineer<br /><ul type='Circle'><li>Collaborate with France Lab ODM dev team to perform Globalization Verification Tests on their products in CI/CD manner</li><li>Create automated UI tests using Selenium WebDriver and JavaScript</li><li>Brainstorm & develop new features for internal automation tools using mainly Node.js and AngularJS</li></ul>--------<br /><span class='tip'>Room One Ltd</span>, London, 2018/01/03-2018/03/31<br /> Software Developer<br /><ul type='Circle'><li>Worked primarily in Python and ROS on Ericsson’s 5G demo project for MWC 2018</li><li>My tasks encompassed the network and robotics aspects of the project:<ul><li>Socket programming</li><li>Applying mathematics to convert points in 3D space to joint angles interpretable to the UR3 robot</li></ul></li><li>Optimised human-robot motion synchronisation by using asynchronous HTTP requests <a href='https://twitter.com/roomonelondon/status/969268929565782017'><i class='fa'>&#xf099;</i></a></li></ul>--------<br /><span class='tip'>Centre for Telecommunications Research</span>, King’s College London, 2017/09/05-2018/03/31<br />Software Engineer<br /><ul type='Circle'><li>Worked in an agile manner with the team developing the prototype infrastructure for the UK’s 5G-data core</li><li>Worked in a linux environment and used command line for most of my tasks</li><li>Implemented the MP-TCP/IP proxy in C on a linux server</li></ul>--------<br /><span class='tip'>Runwedia</span>, Taipei, 2017/07/21 - 2017/08/31<br />Frontend Developer Intern<br /><ul><li>Designed and developed websites using JS, PHP, HTML and CSS</li><li>Communicated with clients and refined requirement specifications</li></ul>--------<br /><span class='tip'>Cyberlink</span>, Taipei, 2016/06/01 - 2016/08/25<br />UI Designer Intern<br /><ul><li>Designed icons and graphics using Adobe Photoshop and Illustrator</li></ul>";
             break;
             case "ACTIVITIES":
             message = "--------<br /><span class='tip'>Facebook Secure and Private AI Scholarship</span>,  Udacity, 2019/06-2019/09<br /><ul type='Circle'><li>Learning 10 hours a week over 3 months on Federated Learning, Differential Privacy, and Encrypted Computation</li><li>Using Pytorch and OpenMined's PySyft to train AI models while securing users' privacy</li></ul>--------<br /><span class='tip'>Facebook Hack A Project</span>,  London, 2018/10-2018/11<br /><ul type='Circle'><li>6-week program at Facebook HQ with mentoring support from senior software engineers</li><li>Worked on the backend of an Android App that uses Node.js with Express framework and Heroku for infrastructure</li></ul>--------<br /><span class='tip'>China Internet Industry Immersion Trip</span><br />Beijing, 2017/08<br /><ul type='Circle'><li>Rotated around different departments during the internship at Xinhuanet</li><li> Visited Huawei, Mobike and JD.com</li></ul>--------";
             break;
             case "CONTACT":
-            message = "<div class='terminalMessage'><p>Feel free to drop me an <a href='mailto:chih-yun.chien@kcl.ac.uk'>email</a> or check out my <a href='https://github.com/jojojolin'>github</a>!</p></div>";
+            message = "<div class='terminalMessage'><p>Feel free to drop me an <a href='mailto:jolinechien@yahoo.com.tw'>email</a> or check out my <a href='https://github.com/jojojolin'>github</a>!</p></div>";
             break;
             case "CLEAR":
             message = "";
@@ -153,52 +200,6 @@ function executeCmd(e) {
         commLine.value = "";
         termBody.scrollTop = termBody.scrollHeight;
         upLimit = 0;
-    }
-    else if ((e.which == 38) || (e.keyCode == 38))
-    {
-        commLine.value = "";
-        if(upLimit <= commandList.length -1)
-        {
-            upLimit++;
-            commLine.value = commandList[commandList.length-upLimit];
-        }
-    }
-    else if ((e.which == 40) || (e.keyCode == 40))
-    {
-        commLine.value = "";
-        if(upLimit >= 1)
-        {
-            commLine.value = commandList[commandList.length-upLimit];
-            upLimit--;
-        }
-    }
-    else if ((e.which == 9) || (e.keyCode == 9))
-    {               
-        e.preventDefault(); //prevent default tab response
-        commLine = document.getElementById('commandLine');
-        termBody = document.getElementById('terminalBody');
-        cmd = commLine.value.split(" ");
-        if (cmd.length < 2)
-        {
-            let options = search(cmd[0].toUpperCase());
-            if (options.length == 1)
-            {   
-                commLine.value = options[0].toLowerCase();
-            }
-            else if(options.length > 1)
-            {   
-                termBody.innerHTML += '<div class="terminalCommand"><p><span class="user">' +user + siteName+' ~ $ </span>' + '<span class="command">' + commLine.value + '</span></div><div class ="terminalMessage">';
-                for (i = 0; i < options.length; i++){
-                    termBody.innerHTML += '<span class = "keyword">' + options[i].toLowerCase()+'</span>&nbsp&nbsp';
-                    if ((i+1)%5 == 0){
-                        termBody.innerHTML +='<br />';
-                    }
-                }
-                termBody.innerHTML += "</div>";
-            }
-        }
-        termBody.scrollTop = termBody.scrollHeight;
-    }
 }
 
 /************************************
@@ -237,7 +238,7 @@ function fireKeyword(id, word){
 /************************************
 ** Description: insert commands into lookup table during preload.
 **              each element in the array is a bin which contains 
-**              a signly linked list
+**              a linked list
 ** Params : command(string)
 ************************************/
 function insert(command){
@@ -252,7 +253,6 @@ function insert(command){
     else{
         let current = lookup[key];
         while(current.next!=null){
-            console.log("current is "+current.value);
             current=current.next;
 
         }

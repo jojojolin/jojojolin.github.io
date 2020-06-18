@@ -46,11 +46,14 @@
 	<script src="js/bootstrap.min.js"></script>
     <script src="js/terminal.js"></script>
 	<script type="text/javascript">
-        
-        
-        
+
         //Use nested setTimeout() to achieve the 'illusion' of sleep in JS
-        window.onload = function(){
+        window.onload = ()=>{
+            let hash = window.location.hash;
+            if(hash){
+                customisedCmd("hide");
+                customisedCmd(hash.substring(1));
+            }
             fireSentence("greet",greeting).then((l)=>{
                 setTimeout(function() {
                     fireSentence("instruct",instruction1).then((l)=>{
